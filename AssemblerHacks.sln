@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblerHacks", "AssemblerHacks\AssemblerHacks.csproj", "{4E7C8C55-E8EE-48F7-94AC-E9558048F702}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler", "Assembler\Assembler.csproj", "{BCC6F0A8-C91A-425F-B3A6-9EB56D1538CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VM", "VM\VM.csproj", "{E8144655-DEEA-4EF0-8F99-83692E983692}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E7C8C55-E8EE-48F7-94AC-E9558048F702}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E7C8C55-E8EE-48F7-94AC-E9558048F702}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E7C8C55-E8EE-48F7-94AC-E9558048F702}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E7C8C55-E8EE-48F7-94AC-E9558048F702}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCC6F0A8-C91A-425F-B3A6-9EB56D1538CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCC6F0A8-C91A-425F-B3A6-9EB56D1538CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCC6F0A8-C91A-425F-B3A6-9EB56D1538CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCC6F0A8-C91A-425F-B3A6-9EB56D1538CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8144655-DEEA-4EF0-8F99-83692E983692}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8144655-DEEA-4EF0-8F99-83692E983692}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8144655-DEEA-4EF0-8F99-83692E983692}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8144655-DEEA-4EF0-8F99-83692E983692}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

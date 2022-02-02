@@ -1,0 +1,12 @@
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\bin\Debug\net6.0\VM.deps.json
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\bin\Debug\net6.0\VM.dll
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\bin\Debug\net6.0\ref\VM.dll
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\bin\Debug\net6.0\VM.pdb
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\obj\Debug\net6.0\VM.csproj.AssemblyReference.cache
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\obj\Debug\net6.0\VM.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\obj\Debug\net6.0\VM.AssemblyInfoInputs.cache
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\obj\Debug\net6.0\VM.AssemblyInfo.cs
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\obj\Debug\net6.0\VM.csproj.CoreCompileInputs.cache
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\obj\Debug\net6.0\VM.dll
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\obj\Debug\net6.0\ref\VM.dll
+C:\Users\caspe\Documents\school\AssemblerHacks\VM\obj\Debug\net6.0\VM.pdb
