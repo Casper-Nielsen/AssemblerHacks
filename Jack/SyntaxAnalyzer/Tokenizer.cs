@@ -21,7 +21,6 @@ internal class Tokenizer
             ')',
             '[',
             ']',
-            '.',
             ',',
             ';',
             '+',
@@ -43,10 +42,6 @@ internal class Tokenizer
             "field",
             "static",
             "var",
-            "int",
-            "char",
-            "boolean",
-            "void",
             "true",
             "false",
             "null",
@@ -127,10 +122,13 @@ if (x < 0) {
             }
             else
             {
-                var endIndex = line.IndexOf(' ', 0);
-                var linePart = line.Substring(0, endIndex);
+                var endIndexSpace = line.IndexOf(' ',0);
+                var linePartSpace = line[..endIndexSpace];
                 
-                var word = Regex.Match(linePart, @"^[a-zA-Z]+$").Value;
+                var endIndex = linePartSpace.IndexOfAny(_symbols.ToArray());
+                var linePart = endIndex >= 0 ? linePartSpace[..endIndex] : linePartSpace;
+                
+                var word = new string(linePart.Where(l => char.IsLetter(l) || l == '.').ToArray());
                 
                 word = word.Trim();
 

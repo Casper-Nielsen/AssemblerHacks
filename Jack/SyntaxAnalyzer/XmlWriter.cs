@@ -22,6 +22,13 @@ internal class XmlWriter
         _node.AppendChild(rootNode);
     }
 
+    public void WriteGood(object obj)
+    {
+        var x = new System.Xml.Serialization.XmlSerializer(obj.GetType());
+        var stream = new FileStream(@"C:\Users\caspe\Desktop\test\temp.xml", FileMode.OpenOrCreate);
+        x.Serialize(stream,obj);
+        stream.Close();
+    }
     public void Close()
     {
         _doc.Save(@"C:\Users\caspe\Desktop\test\temp.xml");

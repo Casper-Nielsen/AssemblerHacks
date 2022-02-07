@@ -1,6 +1,6 @@
 ﻿namespace Jack.Model;
 
-internal class WhileStatement : Statement
+public class WhileStatement : Statement
 {
     public WhileStatement() : base(CommandType.WhileStatement)
     {

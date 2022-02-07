@@ -1,10 +1,11 @@
 ﻿namespace Jack.Model;
 
-internal class Token
+public class Token
 {
     public AttributeEnum Attribute { get; set; }
     public string Text { get; set; }
 
+    public Token() { }
     public Token(AttributeEnum attribute, string text)
     {
         Attribute = attribute;
@@ -12,7 +13,7 @@ internal class Token
     }
 }
 
-internal enum AttributeEnum
+public enum AttributeEnum
 {
     Keyword,
     Symbol,
