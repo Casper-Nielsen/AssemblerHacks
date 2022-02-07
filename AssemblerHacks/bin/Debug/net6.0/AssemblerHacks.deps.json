@@ -9,6 +9,7 @@
       "AssemblerHacks/1.0.0": {
         "dependencies": {
           "Assembler": "1.0.0",
+          "Jack": "1.0.0",
           "VM": "1.0.0"
         },
         "runtime": {
@@ -18,6 +19,11 @@
       "Assembler/1.0.0": {
         "runtime": {
           "Assembler.dll": {}
+        }
+      },
+      "Jack/1.0.0": {
+        "runtime": {
+          "Jack.dll": {}
         }
       },
       "VM/1.0.0": {
@@ -34,6 +40,11 @@
       "sha512": ""
     },
     "Assembler/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Jack/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

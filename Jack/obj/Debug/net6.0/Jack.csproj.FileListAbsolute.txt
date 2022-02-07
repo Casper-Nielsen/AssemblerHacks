@@ -1,0 +1,12 @@
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\bin\Debug\net6.0\Jack.deps.json
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\bin\Debug\net6.0\Jack.dll
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\bin\Debug\net6.0\ref\Jack.dll
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\bin\Debug\net6.0\Jack.pdb
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\obj\Debug\net6.0\Jack.csproj.AssemblyReference.cache
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\obj\Debug\net6.0\Jack.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\obj\Debug\net6.0\Jack.AssemblyInfoInputs.cache
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\obj\Debug\net6.0\Jack.AssemblyInfo.cs
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\obj\Debug\net6.0\Jack.csproj.CoreCompileInputs.cache
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\obj\Debug\net6.0\Jack.dll
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\obj\Debug\net6.0\ref\Jack.dll
+C:\Users\caspe\Documents\school\AssemblerHacks\Jack\obj\Debug\net6.0\Jack.pdb

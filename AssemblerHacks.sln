@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler", "Assembler\Asse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VM", "VM\VM.csproj", "{E8144655-DEEA-4EF0-8F99-83692E983692}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jack", "Jack\Jack.csproj", "{9ABD34B3-82D4-4E51-8A23-CFF2B75FAC86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{E8144655-DEEA-4EF0-8F99-83692E983692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8144655-DEEA-4EF0-8F99-83692E983692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8144655-DEEA-4EF0-8F99-83692E983692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ABD34B3-82D4-4E51-8A23-CFF2B75FAC86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ABD34B3-82D4-4E51-8A23-CFF2B75FAC86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ABD34B3-82D4-4E51-8A23-CFF2B75FAC86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ABD34B3-82D4-4E51-8A23-CFF2B75FAC86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

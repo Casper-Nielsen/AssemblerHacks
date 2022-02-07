@@ -48,7 +48,7 @@ M=D
 D=A
 @LCL
 M=D
-@JUMPOVERMETHODS
+@sys.init
 0;JMP
 (FALSE)
 @SP
@@ -100,8 +100,7 @@ D=M-D
 @TRUE
 D;JLT
 @FALSE
-0;JMP
-(JUMPOVERMETHODS)";
+0;JMP";
             _sw.Write(preSet);
         }
 

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
 using Assembler.HackAssembly;
+using Jack;
 using VM;
 
+var test = new JackCompiler();
+test.run();
 Console.WriteLine("From type (asm/vm): ");
 var type = Console.ReadLine();
 

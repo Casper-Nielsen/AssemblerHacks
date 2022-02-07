@@ -12,6 +12,16 @@
           "bin/placeholder/Assembler.dll": {}
         }
       },
+      "Jack/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Jack.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Jack.dll": {}
+        }
+      },
       "VM/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -30,6 +40,11 @@
       "path": "../Assembler/Assembler.csproj",
       "msbuildProject": "../Assembler/Assembler.csproj"
     },
+    "Jack/1.0.0": {
+      "type": "project",
+      "path": "../Jack/Jack.csproj",
+      "msbuildProject": "../Jack/Jack.csproj"
+    },
     "VM/1.0.0": {
       "type": "project",
       "path": "../VM/VM.csproj",
@@ -39,6 +54,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Assembler >= 1.0.0",
+      "Jack >= 1.0.0",
       "VM >= 1.0.0"
     ]
   },
@@ -71,6 +87,9 @@
           "projectReferences": {
             "C:\\Users\\caspe\\Documents\\school\\AssemblerHacks\\Assembler\\Assembler.csproj": {
               "projectPath": "C:\\Users\\caspe\\Documents\\school\\AssemblerHacks\\Assembler\\Assembler.csproj"
+            },
+            "C:\\Users\\caspe\\Documents\\school\\AssemblerHacks\\Jack\\Jack.csproj": {
+              "projectPath": "C:\\Users\\caspe\\Documents\\school\\AssemblerHacks\\Jack\\Jack.csproj"
             },
             "C:\\Users\\caspe\\Documents\\school\\AssemblerHacks\\VM\\VM.csproj": {
               "projectPath": "C:\\Users\\caspe\\Documents\\school\\AssemblerHacks\\VM\\VM.csproj"

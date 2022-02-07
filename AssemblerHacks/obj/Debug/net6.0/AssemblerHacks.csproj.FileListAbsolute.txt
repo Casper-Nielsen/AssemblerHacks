@@ -18,3 +18,5 @@ C:\Users\caspe\Documents\school\AssemblerHacks\AssemblerHacks\obj\Debug\net6.0\A
 C:\Users\caspe\Documents\school\AssemblerHacks\AssemblerHacks\obj\Debug\net6.0\AssemblerHacks.genruntimeconfig.cache
 C:\Users\caspe\Documents\school\AssemblerHacks\AssemblerHacks\bin\Debug\net6.0\VM.dll
 C:\Users\caspe\Documents\school\AssemblerHacks\AssemblerHacks\bin\Debug\net6.0\VM.pdb
+C:\Users\caspe\Documents\school\AssemblerHacks\AssemblerHacks\bin\Debug\net6.0\Jack.dll
+C:\Users\caspe\Documents\school\AssemblerHacks\AssemblerHacks\bin\Debug\net6.0\Jack.pdb

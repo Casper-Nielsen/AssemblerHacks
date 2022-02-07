@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Assembler\Assembler.csproj" />
+      <ProjectReference Include="..\Jack\Jack.csproj" />
       <ProjectReference Include="..\VM\VM.csproj" />
     </ItemGroup>
 
