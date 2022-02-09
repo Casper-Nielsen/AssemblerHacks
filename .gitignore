@@ -1,0 +1,5 @@
+AssemblerHacks/bin/*
+AssemblerHacks/obj/*
+Jack/bin/*
+Jack/obj/*
+*.cache

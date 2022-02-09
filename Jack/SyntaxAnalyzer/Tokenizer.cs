@@ -54,23 +54,6 @@ internal class Tokenizer
             "return"
         };
     }
-
-    public void run()
-    {
-        var str = @"
-if (x < 0) {
-    let sign = "+
-                  " \"negative\""+
-                  @";
-            }
-";
-        var test = Tokenize(str);
-        foreach (var token in test)
-        {
-            _xmlWriter.Write(token);
-        }
-        _xmlWriter.Close();
-    }
     
     public IReadOnlyCollection<Token> Tokenize(string line)
     {
@@ -101,7 +84,7 @@ if (x < 0) {
             else if (int.TryParse(line[0].ToString(), out _))
             {
                 var endIndex = line.IndexOf(' ', 0);
-                var linePart = line.Substring(0, endIndex);
+                var linePart = endIndex >= 0 ? line.Substring(0, endIndex) : line;
                 
                 var intConstant = Regex.Match(linePart, @"\d+").Value;
 

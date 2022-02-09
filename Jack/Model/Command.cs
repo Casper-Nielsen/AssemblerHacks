@@ -48,5 +48,7 @@ public enum CommandType
     Do,
     Function,
     Var,
-    ArrayVar
+    ArrayVar,
+    String,
+    Ctor
 }

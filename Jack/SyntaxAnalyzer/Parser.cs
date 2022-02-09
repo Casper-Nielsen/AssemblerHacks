@@ -26,6 +26,7 @@ internal class Parser
 
     private Command? ParseCommand(IReadOnlyCollection<Token> tokens, int startIndex, out int nextIndex)
     {
+        bool neg = false;
         nextIndex = startIndex;
         while (nextIndex < tokens.Count)
         {
@@ -61,20 +62,20 @@ internal class Parser
                             else if (innerCommand is Expression)
                             {
                                 letCommand.VarName = ((Expression) innerCommand).Term;
-                                
-                                // makea it to a do command 
+
+                                // make a it to a do command 
                                 if (CheckSymbol(tokens.ElementAt(nextIndex), "("))
                                 {
                                     nextIndex++;
-                                    
+
                                     var inlineDoCommand = new DoCommand
                                     {
                                         methodName = ((Expression) innerCommand).OpTerm
                                     };
-                                    
+
                                     while (!CheckSymbol(tokens.ElementAt(nextIndex), ")"))
                                     {
-                                        if(CheckSymbol(tokens.ElementAt(nextIndex),","))
+                                        if (CheckSymbol(tokens.ElementAt(nextIndex), ","))
                                             nextIndex++;
                                         // Gets the expression
                                         innerCommand = ParseCommand(tokens, nextIndex, out nextIndex);
@@ -83,6 +84,7 @@ internal class Parser
                                         else
                                             throw new Exception("Invalid inline do command");
                                     }
+
                                     nextIndex++;
                                     letCommand.Expression = inlineDoCommand;
                                 }
@@ -91,12 +93,12 @@ internal class Parser
                             }
                             else
                                 throw new Exception("Invalid let command");
-                            
+
                             // Sees if the next symbol is ;
                             if (!CheckSymbol(tokens.ElementAt(nextIndex), ";"))
                                 throw new Exception("Invalid let command");
                             nextIndex++;
-                            
+
                             return letCommand;
 
                         case "while":
@@ -144,10 +146,39 @@ internal class Parser
                             // Gets the expression
                             innerCommand = ParseCommand(tokens, nextIndex, out nextIndex);
                             if (innerCommand is Expression or VarName)
+                            {
+                                // make a it to a do command 
+                                if (CheckSymbol(tokens.ElementAt(nextIndex), "("))
+                                {
+                                    nextIndex++;
+
+                                    var inlineDoCommand = new DoCommand
+                                    {
+                                        methodName = ((VarName) innerCommand)
+                                    };
+
+                                    while (!CheckSymbol(tokens.ElementAt(nextIndex), ")"))
+                                    {
+                                        if (CheckSymbol(tokens.ElementAt(nextIndex), ","))
+                                            nextIndex++;
+                                        // Gets the expression
+                                        innerCommand = ParseCommand(tokens, nextIndex, out nextIndex);
+                                        if (innerCommand is VarName or Constant or Expression)
+                                            inlineDoCommand.ValueHolders.Add(innerCommand);
+                                        else
+                                            throw new Exception("Invalid inline do command");
+                                    }
+
+                                    nextIndex++;
+                                    ifCommand.Expression = inlineDoCommand;
+                                }
+
                                 ifCommand.Expression = innerCommand;
+                            }
+
                             else
                                 throw new Exception("Invalid if command");
-
+                            
                             // Sees if the next symbol is )
                             if (!CheckSymbol(tokens.ElementAt(nextIndex), ")"))
                                 throw new Exception("Invalid if command");
@@ -169,8 +200,15 @@ internal class Parser
 
                         case "return":
                             var returnCommand = new ReturnCommand();
+                            if (!CheckSymbol(tokens.ElementAt(nextIndex), ";"))
+                            {
+                                innerCommand = ParseCommand(tokens, nextIndex, out nextIndex);
+                                returnCommand.Value = innerCommand;
+                            }
+                            // Sees if the next symbol is ;
+                            if (!CheckSymbol(tokens.ElementAt(nextIndex), ";"))
+                                throw new Exception("Invalid let command");
                             nextIndex++;
-                            
                             return returnCommand;
                         
                         case "class":
@@ -198,8 +236,56 @@ internal class Parser
                             nextIndex++;
                             return classCommand;
                         
-                        case "method":
                         case "constructor":
+                            var ctorCommand = new CtorCommand();
+                            
+                            // Gets the type
+                            innerCommand = ParseCommand(tokens, nextIndex, out nextIndex);
+                            if (innerCommand is not VarName)
+                                throw new Exception("Invalid function command");
+                            
+                            // Gets the name
+                            innerCommand = ParseCommand(tokens, nextIndex, out nextIndex);
+                            if (innerCommand is VarName)
+                                ctorCommand.FunctionName = (VarName) innerCommand;
+                            else
+                                throw new Exception("Invalid function command");
+                            
+                            
+                            // Sees if the next symbol is (
+                            if (!CheckSymbol(tokens.ElementAt(nextIndex), "("))
+                                throw new Exception("Invalid function command");
+                            nextIndex++;
+
+
+                            while (!CheckSymbol(tokens.ElementAt(nextIndex), ")"))
+                            {
+                                if(CheckSymbol(tokens.ElementAt(nextIndex),","))
+                                    nextIndex++;
+                                // Gets the expression
+                                innerCommand = ParseCommand(tokens, nextIndex, out nextIndex);
+                                if (innerCommand is ValueHolder)
+                                    ctorCommand.ValueHolders.Add((ValueHolder)innerCommand);
+                                else
+                                    throw new Exception("Invalid do command");
+                            }
+                            nextIndex++;
+
+                            // Sees if the next symbol is {
+                            if (!CheckSymbol(tokens.ElementAt(nextIndex), "{"))
+                                throw new Exception("Invalid function command");
+                            nextIndex++;
+                            
+                            // Gets the next command while the next is not }
+                            while (!CheckSymbol(tokens.ElementAt(nextIndex), "}"))
+                            {
+                                ctorCommand.Statements.Add(ParseCommand(tokens, nextIndex, out nextIndex));
+                            }
+
+                            nextIndex++;
+                            return ctorCommand;
+                        
+                        case "method":
                         case "function":
                             var functionCommand = new FunctionCommand();
                             
@@ -299,7 +385,7 @@ internal class Parser
                                     nextIndex++;
                                 // Gets the expression
                                 innerCommand = ParseCommand(tokens, nextIndex, out nextIndex);
-                                if (innerCommand is VarName or Constant)
+                                if (innerCommand is VarName or Constant or ThisHolder)
                                     doCommand.ValueHolders.Add(innerCommand);
                                 else
                                     throw new Exception("Invalid do command");
@@ -331,6 +417,9 @@ internal class Parser
                             
                             return elseCommand;
 
+                        case "this":
+                            return new ThisHolder();
+
                         default:
                             throw new Exception("unknown Keyword");
                     }
@@ -338,20 +427,20 @@ internal class Parser
                     break;
                 
                 case AttributeEnum.Symbol:
-                    return currentToken.Text is "+" or "-" or "=" or ">" or "<"
-                        ? new Operation(currentToken.Text)
-                        : null;
-
-                case AttributeEnum.StringConstant:
+                    if(!CheckSymbol(tokens.ElementAt(nextIndex-2)))
+                        return currentToken.Text is "+" or "-" or "=" or ">" or "<"
+                            ? new Operation(currentToken.Text)
+                            : null;
+                    neg = true;
                     break;
-
+                
                 case AttributeEnum.IntegerConstant:
                 case AttributeEnum.Identifier:
                     var expressionCommand = new Expression();
                     
                     // Gets the first term
                     if (currentToken.Attribute == AttributeEnum.IntegerConstant)
-                        expressionCommand.Term = new Constant(int.Parse(currentToken.Text));
+                        expressionCommand.Term = new Constant(neg ? -int.Parse(currentToken.Text) : int.Parse(currentToken.Text));
                     else if (CheckSymbol(tokens.ElementAt(nextIndex), "["))
                     {
                         var arrayVar = new ArrayVarCommand();
@@ -374,7 +463,8 @@ internal class Parser
                     
                     // Get if there is a symbol and another term
                     if (tokens.ElementAt(nextIndex).Attribute != AttributeEnum.Symbol) return expressionCommand.Term;
-
+                    if (CheckSymbol(tokens.ElementAt(nextIndex), ";")) return expressionCommand.Term;
+                    
                     var next = ParseCommand(tokens, nextIndex, out nextIndex);
                     if (next == null)
                     {
@@ -388,6 +478,9 @@ internal class Parser
                     expressionCommand.OpTerm = ParseCommand(tokens, nextIndex, out nextIndex);
                     return expressionCommand;
                 
+                case AttributeEnum.StringConstant:
+                    return new StringConstant(currentToken.Text);
+                
                 default:
                     throw new Exception("Unknown Command");
             }
@@ -400,5 +493,10 @@ internal class Parser
     {
         if (token.Attribute != AttributeEnum.Symbol) return false;
         return token.Text == validSymbol;
-    }
+    }   
+    private bool CheckSymbol(Token token)
+    {
+        if (token.Attribute != AttributeEnum.Symbol) return false;
+        return true;
+    }   
 }
