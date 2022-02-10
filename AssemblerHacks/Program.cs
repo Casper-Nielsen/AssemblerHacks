@@ -5,8 +5,8 @@ using Jack;
 using VM;
 
 var test = new JackCompiler();
-test.run();
-Console.WriteLine("From type (asm/vm): ");
+
+Console.WriteLine("From type (asm/vm/jack): ");
 var type = Console.ReadLine();
 
 
@@ -27,6 +27,13 @@ if (type.ToLower() == "asm")
     var name = Console.ReadLine();
     Console.WriteLine("reading files");
     VMConverter.Convert(path,name);
+}else if (type.ToLower() == "jack")
+{
+    Console.WriteLine("Path to files: ");
+    var path = Console.ReadLine();
+    Console.WriteLine("reading files");
+    var jack = new JackCompiler();
+    jack.Compile(path);
 }
 
 Console.WriteLine("done");

@@ -50,5 +50,6 @@ public enum CommandType
     Var,
     ArrayVar,
     String,
-    Ctor
+    Ctor,
+    Arg
 }

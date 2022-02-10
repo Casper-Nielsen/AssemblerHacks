@@ -2,7 +2,8 @@
 
 public class DoCommand : Command
 {
-    public Command? methodName { get; set; }
+    public bool NoReturn { get; set; }
+    public string methodName { get; set; }
     public List<Command> ValueHolders { get; set; }
     
     public DoCommand() : base(CommandType.Do)

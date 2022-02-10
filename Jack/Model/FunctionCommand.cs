@@ -2,13 +2,19 @@
 
 public class FunctionCommand : Command
 {
-    public ValueHolder FunctionName { get; set; }
-    public List<ValueHolder> ValueHolders { get; set; }
+    public string FunctionName { get; set; }
+    public bool IsFunction { get; }
+    public List<ArgCommand> ValueHolders { get; set; }
     public List<Command?> Statements { get; set; }
     
     public FunctionCommand() : base(CommandType.Function)
     {
-        ValueHolders = new List<ValueHolder>();
+        ValueHolders = new List<ArgCommand>();
         Statements = new List<Command?>();
+    }
+
+    public FunctionCommand(string type) : this()
+    {
+        IsFunction = type == "function";
     }
 }
