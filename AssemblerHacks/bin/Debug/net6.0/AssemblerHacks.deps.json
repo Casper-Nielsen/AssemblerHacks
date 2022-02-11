@@ -1,0 +1,58 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "AssemblerHacks/1.0.0": {
+        "dependencies": {
+          "Assembler": "1.0.0",
+          "Jack": "1.0.0",
+          "VM": "1.0.0"
+        },
+        "runtime": {
+          "AssemblerHacks.dll": {}
+        }
+      },
+      "Assembler/1.0.0": {
+        "runtime": {
+          "Assembler.dll": {}
+        }
+      },
+      "Jack/1.0.0": {
+        "runtime": {
+          "Jack.dll": {}
+        }
+      },
+      "VM/1.0.0": {
+        "runtime": {
+          "VM.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AssemblerHacks/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Assembler/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Jack/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "VM/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
