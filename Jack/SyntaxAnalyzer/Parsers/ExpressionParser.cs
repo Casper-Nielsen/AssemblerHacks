@@ -41,10 +41,10 @@ public class ExpressionParser: IParser
             }
 
             // Gets the first term
-            if (currentToken.Attribute == AttributeEnum.IntegerConstant)
+            if (currentToken.Attribute == AttributeEnum.INTEGER_CONSTANT)
                 expressionCommand.Term =
                     new Constant(neg ? -int.Parse(currentToken.Text) : int.Parse(currentToken.Text));
-            else if (currentToken.Attribute == AttributeEnum.StringConstant)
+            else if (currentToken.Attribute == AttributeEnum.STRING_CONSTANT)
             {
                 expressionCommand.Term = new StringConstant(currentToken.Text);
             }
@@ -70,7 +70,7 @@ public class ExpressionParser: IParser
                 nextIndex++;
         
         // Get if there is a symbol and another term
-        if (tokens.ElementAt(nextIndex).Attribute != AttributeEnum.Symbol) return expressionCommand.Term;
+        if (tokens.ElementAt(nextIndex).Attribute != AttributeEnum.SYMBOL) return expressionCommand.Term;
         if (Parser.CheckSymbol(tokens.ElementAt(nextIndex), ";")) return expressionCommand.Term;
         if (Parser.CheckSymbol(tokens.ElementAt(nextIndex), "(")) return expressionCommand.Term;
         

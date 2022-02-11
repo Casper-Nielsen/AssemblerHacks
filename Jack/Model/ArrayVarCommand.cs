@@ -2,9 +2,9 @@
 
 public class ArrayVarCommand : ValueHolder
 {
-    public Command index { get; set; }
+    public Command Index { get; set; }
     
-    public ArrayVarCommand() : base(CommandType.ArrayVar)
+    public ArrayVarCommand() : base(CommandType.ARRAY_VAR)
     {
     }
 }

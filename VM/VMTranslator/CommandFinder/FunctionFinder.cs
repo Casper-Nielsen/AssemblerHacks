@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using VM.Model;
+﻿using VM.Model;
 
 namespace VM.VMTranslator.CommandFinder
 {
+    /// <summary>
+    /// Searches the line for a Function command
+    /// </summary>
     public class FunctionFinder : ICommandFinder
     {
-        private List<string> _functions;
+        private readonly List<string> _functions;
 
         public FunctionFinder()
         {

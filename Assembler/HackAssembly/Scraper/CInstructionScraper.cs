@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Assembler.HackAssembly.Scraper
 {
+    /// <summary>
+    /// Scrapes the c instruction from the assembly code
+    /// converts them to binary code 
+    /// </summary>
     public class CInstructionScraper: IScraper
     {
         private Dictionary<string, string> _cBits;

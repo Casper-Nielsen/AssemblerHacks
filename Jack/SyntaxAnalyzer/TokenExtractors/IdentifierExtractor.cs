@@ -24,7 +24,7 @@ public class IdentifierExtractor : ITokenExtractor
 
         if (ConstantLists.Keywords.Contains(word)) return false;
         
-        token = new Token( AttributeEnum.Identifier, word);
+        token = new Token( AttributeEnum.IDENTIFIER, word);
         file = file.Remove(0, word.Length);
         return true;
     }

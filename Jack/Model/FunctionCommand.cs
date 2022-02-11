@@ -7,7 +7,7 @@ public class FunctionCommand : Command
     public List<ArgCommand> ValueHolders { get; set; }
     public List<Command?> Statements { get; set; }
     
-    public FunctionCommand() : base(CommandType.Function)
+    public FunctionCommand() : base(CommandType.FUNCTION)
     {
         ValueHolders = new List<ArgCommand>();
         Statements = new List<Command?>();

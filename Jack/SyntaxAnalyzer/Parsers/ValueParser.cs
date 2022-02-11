@@ -16,13 +16,13 @@ public class ValueParser : IParser
         nextIndex = startIndex+1;
         return currentToken.Attribute switch
         {
-            AttributeEnum.Keyword when currentToken.Text == "this" => new ThisHolder(),
-            AttributeEnum.Keyword when currentToken.Text == "false" => new Constant(0),
-            AttributeEnum.Keyword when currentToken.Text == "true" => new Constant(-1),
-            AttributeEnum.Keyword => null,
-            AttributeEnum.IntegerConstant => new Constant(int.Parse(currentToken.Text)),
-            AttributeEnum.Identifier => new VarName(currentToken.Text),
-            AttributeEnum.StringConstant => new StringConstant(currentToken.Text),
+            AttributeEnum.KEYWORD when currentToken.Text == "this" => new ThisHolder(),
+            AttributeEnum.KEYWORD when currentToken.Text == "false" => new Constant(0),
+            AttributeEnum.KEYWORD when currentToken.Text == "true" => new Constant(-1),
+            AttributeEnum.KEYWORD => null,
+            AttributeEnum.INTEGER_CONSTANT => new Constant(int.Parse(currentToken.Text)),
+            AttributeEnum.IDENTIFIER => new VarName(currentToken.Text),
+            AttributeEnum.STRING_CONSTANT => new StringConstant(currentToken.Text),
             _ => null
         };
     }

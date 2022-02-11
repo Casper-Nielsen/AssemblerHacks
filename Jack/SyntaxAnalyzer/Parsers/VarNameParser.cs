@@ -18,6 +18,6 @@ public class VarNameParser : IParser
         if (Parser.CheckSymbol(tokens.ElementAt(nextIndex), "["))
             return parserGroup.ArrayParser.Parse(tokens, parserGroup, startIndex, out nextIndex);
         else
-            return currentToken.Attribute == AttributeEnum.Identifier ? new VarName(currentToken.Text) : null;
+            return currentToken.Attribute == AttributeEnum.IDENTIFIER ? new VarName(currentToken.Text) : null;
     }
 }

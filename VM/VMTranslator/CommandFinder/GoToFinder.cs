@@ -2,6 +2,9 @@
 
 namespace VM.VMTranslator.CommandFinder
 {
+    /// <summary>
+    /// Searches the line for a GoTo command
+    /// </summary>
     public class GoToFinder : ICommandFinder
     {
         public void Search(string line, ref Command command, ref bool found)

@@ -20,7 +20,7 @@ public class ArrayParser : IParser
             
         var innerCommand = parserGroup.ExpressionParser.Parse(tokens, parserGroup, nextIndex, out nextIndex);
         if (innerCommand is VarName or Constant or Expression)
-            arrayVar.index = innerCommand;
+            arrayVar.Index = innerCommand;
         else
             throw new Exception("Invalid array index");
             

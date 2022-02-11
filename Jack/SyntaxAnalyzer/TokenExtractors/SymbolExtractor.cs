@@ -12,7 +12,7 @@ public class SymbolExtractor : ITokenExtractor
     {
         token = new Token();
         if (!ConstantLists.Symbols.Contains(file[0])) return false;
-        token = new Token(AttributeEnum.Symbol,file[..1]);
+        token = new Token(AttributeEnum.SYMBOL,file[..1]);
         file = file.Remove(0, 1);
         return true;
     }

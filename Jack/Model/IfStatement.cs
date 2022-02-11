@@ -2,7 +2,7 @@
 
 public class IfStatement : Statement
 {
-    public IfStatement() : base(CommandType.IfStatement)
+    public IfStatement() : base(CommandType.IF_STATEMENT)
     {
     }
 }

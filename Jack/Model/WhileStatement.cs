@@ -2,7 +2,7 @@
 
 public class WhileStatement : Statement
 {
-    public WhileStatement() : base(CommandType.WhileStatement)
+    public WhileStatement() : base(CommandType.WHILE_STATEMENT)
     {
     }
 }

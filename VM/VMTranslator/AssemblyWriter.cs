@@ -1,38 +1,31 @@
-﻿using System;
-using System.IO;
-using VM.Model;
+﻿using VM.Model;
 using VM.VMTranslator.Converters;
 
 namespace VM.VMTranslator
 {
+    /// <summary>
+    /// Writes commands to assembly
+    /// </summary>
     public class AssemblyWriter
     {
-        private FileStream _file;
-        private StreamWriter _sw;
+        private readonly FileStream _file;
+        private readonly StreamWriter _sw;
         private UniqueGen _uniqueGen;
-        private readonly IConverter<ArithmeticCommand> _arithmeticConverter;
-        private readonly IConverter<MemoryCommand> _memoryConverter;
-        private readonly IConverter<LabelCommand> _labelConverter;
-        private readonly IConverter<GoToCommand> _goToConverter;
-        private readonly IConverter<FunctionCommand> _functionConverter;
-        private readonly IConverter<CallCommand> _callConverter;
-        private readonly IConverter<ReturnCommand> _returnConverter;
+
+        private readonly ConverterGroup _converterGroup;
 
         public AssemblyWriter(string path)
         {
             _file = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
             _sw = new StreamWriter(_file);
             _uniqueGen = new UniqueGen();
-            _arithmeticConverter = new ArithmeticConverter();
-            _memoryConverter = new MemoryConverter();
-            _labelConverter = new LabelConverter();
-            _goToConverter = new GoToConverter();
-            _functionConverter = new FunctionConverter();
-            _callConverter = new CallConverter();
-            _returnConverter = new ReturnConverter();
+            _converterGroup = new ConverterGroup();
             StartUp();
         }
         
+        /// <summary>
+        /// Adds The start up values
+        /// </summary>
         private void StartUp()
         {
             string preSet = @"
@@ -104,22 +97,30 @@ D;JLT
             _sw.Write(preSet);
         }
 
+        /// <summary>
+        /// Closes the stream
+        /// </summary>
         public void Close()
         {
             _sw.Close();
             _file.Close();
         }
+        
+        /// <summary>
+        /// Writes the command in Assembly
+        /// </summary>
+        /// <param name="command">The command that will be converted to assembly</param>
         public void WriteCommand(Command command)
         {
             var stringCommand = command switch
             {
-                ArithmeticCommand arithmeticCommand => _arithmeticConverter.Convert(arithmeticCommand, ref _uniqueGen),
-                MemoryCommand memoryCommand => _memoryConverter.Convert(memoryCommand, ref _uniqueGen),
-                LabelCommand labelCommand => _labelConverter.Convert(labelCommand, ref _uniqueGen),
-                GoToCommand goToCommand => _goToConverter.Convert(goToCommand, ref _uniqueGen),
-                FunctionCommand functionCommand => _functionConverter.Convert(functionCommand, ref _uniqueGen),
-                CallCommand callCommand => _callConverter.Convert(callCommand, ref _uniqueGen),
-                ReturnCommand returnCommand => _returnConverter.Convert(returnCommand, ref _uniqueGen),
+                ArithmeticCommand arithmeticCommand => _converterGroup.ArithmeticConverter.Convert(arithmeticCommand, ref _uniqueGen),
+                MemoryCommand memoryCommand => _converterGroup.MemoryConverter.Convert(memoryCommand, ref _uniqueGen),
+                LabelCommand labelCommand => _converterGroup.LabelConverter.Convert(labelCommand, ref _uniqueGen),
+                GoToCommand goToCommand => _converterGroup.GoToConverter.Convert(goToCommand, ref _uniqueGen),
+                FunctionCommand functionCommand => _converterGroup.FunctionConverter.Convert(functionCommand, ref _uniqueGen),
+                CallCommand callCommand => _converterGroup.CallConverter.Convert(callCommand, ref _uniqueGen),
+                ReturnCommand returnCommand => _converterGroup.ReturnConverter.Convert(returnCommand, ref _uniqueGen),
                 _ => string.Empty
             };
             _sw.Write(stringCommand);

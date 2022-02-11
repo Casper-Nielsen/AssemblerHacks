@@ -7,7 +7,7 @@ public class VarCommand : Command
     public VarType Type { get; set; }
 
     public VarCommand() { }
-    public VarCommand(string type) : base(CommandType.Var)
+    public VarCommand(string type) : base(CommandType.VAR)
     {
         Type = Enum.Parse<VarType>(type.ToUpper());
     }

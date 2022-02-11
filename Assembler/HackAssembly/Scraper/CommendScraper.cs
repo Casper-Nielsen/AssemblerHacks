@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Assembler.HackAssembly.Scraper
 {
+    /// <summary>
+    /// Scrapes the commends from the assembly code
+    /// </summary>
     public class CommendScraper : IScraper
     {
         public void Scrap(ref string[] hackStringArray, ref Dictionary<string, int> namedPointers, ref List<int> usedNumbers)

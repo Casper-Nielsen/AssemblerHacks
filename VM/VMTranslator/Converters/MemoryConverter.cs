@@ -1,8 +1,11 @@
-﻿using System;
-using VM.Model;
+﻿using VM.Model;
 
 namespace VM.VMTranslator.Converters
 {
+    /// <summary>
+    /// Converts a memory command to assembly
+    /// Takes both push and pop
+    /// </summary>
     internal class MemoryConverter : IConverter<MemoryCommand>
     {
         public string Convert(MemoryCommand command, ref UniqueGen uniqueGen)
@@ -76,22 +79,17 @@ M=D
 M=M+1";
                         break;
                     case Location.POINTER:
-                        if (command.Address == 1)
-                        {
-                            stringCommand = @$"
+                        stringCommand = command.Address == 1 ? @$"
 @THAT
 D=M
 @SP
-M=D+1";
-                        }
-                        else
-                        {
-                            stringCommand = @$"
+M=D+1" 
+                            : 
+                            @$"
 @THIS
 D=M
 @SP
 M=D+1";
-                        }
                         break;
                     case Location.THAT:
                         stringCommand = @$"
@@ -196,9 +194,7 @@ M=D
 M=M-1";
                         break;
                     case Location.POINTER:
-                        if (command.Address == 1)
-                        {
-                            stringCommand = @$"
+                        stringCommand = command.Address == 1 ? @$"
 @SP
 AM=M-1
 D=M
@@ -207,11 +203,9 @@ M=D
 @SP
 AM=M+1
 @SP
-M=M-1";
-                        }
-                        else
-                        {
-                            stringCommand = @$"
+M=M-1" 
+                            : 
+                            @$"
 @SP
 AM=M-1
 D=M
@@ -221,7 +215,6 @@ M=D
 AM=M+1
 @SP
 M=M-1";
-                        }
                         break;
                     case Location.THAT:
                         stringCommand = $@"

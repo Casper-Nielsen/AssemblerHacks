@@ -2,6 +2,9 @@
 
 namespace VM.VMTranslator.Converters
 {
+    /// <summary>
+    /// Converts A Call command to assembly
+    /// </summary>
     internal class CallConverter : IConverter<CallCommand>
     {
         public string Convert(CallCommand command, ref UniqueGen uniqueGen)

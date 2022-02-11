@@ -24,7 +24,7 @@ public class KeywordExtractor : ITokenExtractor
 
         if (!ConstantLists.Keywords.Contains(word)) return false;
         
-        token = new Token(AttributeEnum.Keyword, word);
+        token = new Token(AttributeEnum.KEYWORD, word);
         file = file.Remove(0, word.Length);
         return true;
 

@@ -15,9 +15,9 @@ public class Token
 
 public enum AttributeEnum
 {
-    Keyword,
-    Symbol,
-    IntegerConstant,
-    StringConstant,
-    Identifier
+    KEYWORD,
+    SYMBOL,
+    INTEGER_CONSTANT,
+    STRING_CONSTANT,
+    IDENTIFIER
 }

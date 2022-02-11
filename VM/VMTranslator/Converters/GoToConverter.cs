@@ -2,6 +2,10 @@
 
 namespace VM.VMTranslator.Converters
 {
+    /// <summary>
+    /// Converts Goto Commands to assembly
+    /// Takes both goto and if-goto commands
+    /// </summary>
     internal class GoToConverter : IConverter<GoToCommand>
     {
         public string Convert(GoToCommand command, ref UniqueGen uniqueGen)

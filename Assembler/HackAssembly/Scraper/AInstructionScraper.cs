@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Assembler.HackAssembly.Scraper
 {
+    /// <summary>
+    /// Scrapes the A instruction from the assembly code
+    /// convert them to binary
+    /// </summary>
     public class AInstructionScraper : IScraper
     {
         private int _nextNumber = 16;

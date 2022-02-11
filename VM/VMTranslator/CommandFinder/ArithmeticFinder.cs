@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using VM.Model;
+﻿using VM.Model;
 
 namespace VM.VMTranslator.CommandFinder
 {
+    /// <summary>
+    /// Searches the line for a arithmetic command
+    /// </summary>
     public class ArithmeticFinder: ICommandFinder
     {
-        private List<string> _arithmeticCommands;
+        private readonly List<string> _arithmeticCommands;
 
         public ArithmeticFinder()
         {

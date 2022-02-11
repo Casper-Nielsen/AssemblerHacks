@@ -6,8 +6,16 @@ using Assembler.HackAssembly.Scraper;
 
 namespace Assembler.HackAssembly
 {
+    /// <summary>
+    /// Convert Assembly to binary
+    /// </summary>
     public class HackAssemblyConverter
     {
+        /// <summary>
+        /// Converts the Assembly to binary
+        /// </summary>
+        /// <param name="hackAssembly">The assembly file</param>
+        /// <returns>the binary code in string format</returns>
         public static string ConvertFromHackAssembly(string hackAssembly)
         {
             var scrappers = new List<IScraper>()
@@ -21,6 +29,7 @@ namespace Assembler.HackAssembly
             };
             var hackAssemblyArray = hackAssembly.Split('\n');
 
+            // Addes known pointers
             var pointers = new Dictionary<string, int>()
             {
                 {"R0", 0}, 
@@ -50,6 +59,7 @@ namespace Assembler.HackAssembly
 
             var usedAddr = new List<int>();
 
+            // Run through each scraper and scrap the assembly code it knows
             foreach (var scraper in scrappers)
             {
                 scraper.Scrap(ref hackAssemblyArray, ref pointers, ref usedAddr);

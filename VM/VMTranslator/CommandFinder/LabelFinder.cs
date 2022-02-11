@@ -2,6 +2,9 @@
 
 namespace VM.VMTranslator.CommandFinder
 {
+    /// <summary>
+    /// Searches the line for a label command
+    /// </summary>
     public class LabelFinder : ICommandFinder
     {
         public void Search(string line, ref Command command, ref bool found)

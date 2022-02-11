@@ -17,13 +17,13 @@ public class VarParser : IParser
         var currentToken = tokens.ElementAt(startIndex);
         nextIndex = startIndex+1;
         
-        if (currentToken.Attribute != AttributeEnum.Identifier) return null;
+        if (currentToken.Attribute != AttributeEnum.IDENTIFIER) return null;
         varObj.DataType = currentToken.Text;
         
         currentToken = tokens.ElementAt(nextIndex);
         nextIndex++;
         
-        if (currentToken.Attribute != AttributeEnum.Identifier) return null;
+        if (currentToken.Attribute != AttributeEnum.IDENTIFIER) return null;
         varObj.VarName = currentToken.Text;
         
         return varObj;

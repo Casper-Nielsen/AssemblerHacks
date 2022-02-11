@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using VM.Model;
+﻿using VM.Model;
 
 namespace VM.VMTranslator.CommandFinder
 {
+    /// <summary>
+    /// Searches the line for a memory command
+    /// </summary>
     public class MemoryFinder : ICommandFinder
     {
         private readonly List<string> _memoryCommands;

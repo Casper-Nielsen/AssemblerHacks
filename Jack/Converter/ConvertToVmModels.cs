@@ -180,20 +180,20 @@ public class ConvertToVmModels
         var field = GetField(arrayVarCommand.Value);
         
         vmModels.Add(new Push(field));
-        if (arrayVarCommand.index is Expression indexExpression)
+        if (arrayVarCommand.Index is Expression indexExpression)
         {
             vmModels.AddRange(ConvertExpression(indexExpression));    
         }
-        else if (arrayVarCommand.index is Constant indexConstant)
+        else if (arrayVarCommand.Index is Constant indexConstant)
         {
             vmModels.Add(new Push("CONSTANT", DataLocation.CONSTANT, int.Parse(indexConstant.Value)));
         }
-        else if (arrayVarCommand.index is VarName indexName)
+        else if (arrayVarCommand.Index is VarName indexName)
         {
             var indexField = GetField(indexName.Value);
             vmModels.Add(new Push(indexField));
         }
-        vmModels.Add(new VMOperation(VMOperation.OperationEnum.ADD));
+        vmModels.Add(new VmOperation(VmOperation.OperationEnum.ADD));
         vmModels.Add(new Pop("POINTER", DataLocation.POINTER, 1));
         
         return vmModels;
@@ -220,7 +220,7 @@ public class ConvertToVmModels
                     case Constant expressionTermConstant:
                         vmModels.Add(new Push("constant", DataLocation.CONSTANT,
                             Math.Abs(int.Parse(expressionTermConstant.Value))));
-                        vmModels.Add(new VMOperation(VMOperation.OperationEnum.NEG));
+                        vmModels.Add(new VmOperation(VmOperation.OperationEnum.NEG));
                         break;
                     case VarName varName:
                         vmModels.Add(new Push(GetField(varName.Value)));
@@ -244,11 +244,11 @@ public class ConvertToVmModels
                 if (expression.OpTerm is Expression {First: true})
                 {
                     vmModels.AddRange(temp);
-                    vmModels.Add(new VMOperation(((Operation) expression.Operation).Value));
+                    vmModels.Add(new VmOperation(((Operation) expression.Operation).Value));
                 }
                 else
                 {
-                    if (temp.Count > 1 && temp[1] is VMOperation {Operation: VMOperation.OperationEnum.NEG})
+                    if (temp.Count > 1 && temp[1] is VmOperation {Operation: VmOperation.OperationEnum.NEG})
                     {
                         vmModels.Add(temp[0]);
                         vmModels.Add(temp[1]);
@@ -259,7 +259,7 @@ public class ConvertToVmModels
 
                     temp.RemoveAt(0);
 
-                    vmModels.Add(new VMOperation(((Operation) expression.Operation).Value));
+                    vmModels.Add(new VmOperation(((Operation) expression.Operation).Value));
 
                     vmModels.AddRange(temp);
                 }
@@ -271,7 +271,7 @@ public class ConvertToVmModels
                 else
                 {
                     vmModels.Add(new Push(GetField(varName.Value)));
-                    vmModels.Add(new VMOperation(VMOperation.OperationEnum.NEG));
+                    vmModels.Add(new VmOperation(VmOperation.OperationEnum.NEG));
                 }
                 break;
             case Constant vConstant:
@@ -280,7 +280,7 @@ public class ConvertToVmModels
                 else
                 {
                     vmModels.Add(new Push("constant", DataLocation.CONSTANT, Math.Abs(int.Parse(vConstant.Value))));
-                    vmModels.Add(new VMOperation(VMOperation.OperationEnum.NEG));
+                    vmModels.Add(new VmOperation(VmOperation.OperationEnum.NEG));
                 }
 
                 break;
@@ -342,9 +342,9 @@ public class ConvertToVmModels
     {
         var vmModels = new List<IVmModel>();
 
-        var obj = GetField(doCommand.methodName.Split('.')[0]);
+        var obj = GetField(doCommand.MethodName.Split('.')[0]);
         
-        if (!_classes.Contains(doCommand.methodName.Split('.')[0]))
+        if (!_classes.Contains(doCommand.MethodName.Split('.')[0]))
         {
             vmModels.Add(obj == null ? new Push("POINTER", DataLocation.POINTER, 0) : new Push(obj));
         }
@@ -365,17 +365,17 @@ public class ConvertToVmModels
                     break;
             }
         }
-        if (_classes.Contains(doCommand.methodName.Split('.')[0]))
+        if (_classes.Contains(doCommand.MethodName.Split('.')[0]))
             vmModels.Add(new Call(
-                $"{doCommand.methodName}", 
+                $"{doCommand.MethodName}", 
                 doCommand.ValueHolders.Count));
         else if (obj == null)
             vmModels.Add(new Call(
-                $"{_currentClass}.{doCommand.methodName}", 
+                $"{_currentClass}.{doCommand.MethodName}", 
                 doCommand.ValueHolders.Count + 1));
         else
             vmModels.Add(new Call(
-                $"{obj.DataType}.{string.Join(".", doCommand.methodName.Split('.')[1..])}",
+                $"{obj.DataType}.{string.Join(".", doCommand.MethodName.Split('.')[1..])}",
                 doCommand.ValueHolders.Count + 1));
         
         if(doCommand.NoReturn)
@@ -394,7 +394,7 @@ public class ConvertToVmModels
         var vmModels = new List<IVmModel>();
         var uniLabel = UniqueLabel("If");
         vmModels.AddRange(ConvertExpression(ifStatement.Expression));
-        vmModels.Add(new VMOperation(VMOperation.OperationEnum.NOT));
+        vmModels.Add(new VmOperation(VmOperation.OperationEnum.NOT));
         vmModels.Add(new IfGoTo(uniLabel));
         vmModels.AddRange(Convert(ifStatement.Statements));
         vmModels.Add(new Label(uniLabel));
@@ -446,7 +446,7 @@ public class ConvertToVmModels
         var uniLabelOut = UniqueLabel("whileOut");
         vmModels.Add(new Label(uniLabel));
         vmModels.AddRange(ConvertExpression(whileStatement.Expression));
-        vmModels.Add(new VMOperation(VMOperation.OperationEnum.NOT));
+        vmModels.Add(new VmOperation(VmOperation.OperationEnum.NOT));
         vmModels.Add(new IfGoTo(uniLabelOut));
         vmModels.AddRange(Convert(whileStatement.Statements));
         vmModels.Add(new GoTo(uniLabel));
@@ -508,7 +508,7 @@ public class ConvertToVmModels
             {
                 vmModels.Add(new Push("constant", DataLocation.CONSTANT,
                     Math.Abs(int.Parse(expressionTermConstant.Value))));
-                vmModels.Add(new VMOperation(VMOperation.OperationEnum.NEG));
+                vmModels.Add(new VmOperation(VmOperation.OperationEnum.NEG));
             }
         else
             vmModels.Add(new Push(GetField(valueHolder.Value)));

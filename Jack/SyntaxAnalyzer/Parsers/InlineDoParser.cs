@@ -18,7 +18,7 @@ public class InlineDoParser : IParser
         nextIndex = startIndex+1;
         
             
-        doCommand.methodName = currentToken.Text;
+        doCommand.MethodName = currentToken.Text;
         
         if (!Parser.CheckSymbol(tokens.ElementAt(nextIndex), "("))
             throw new Exception("Invalid inline do command");

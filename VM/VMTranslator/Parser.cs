@@ -1,24 +1,22 @@
-﻿using System;
-using System.IO;
-using VM.Model;
+﻿using VM.Model;
 using VM.VMTranslator.CommandFinder;
 
 namespace VM.VMTranslator
 {
+    /// <summary>
+    /// Parses a vm code line to commands 
+    /// </summary>
     public class Parser
     {
-        private ICommandFinder[] _commandfinders;
-        private FileStream _file;
-        private StreamReader _sr;
+        private readonly ICommandFinder[] _commandFinders;
+        private readonly FileStream _file;
+        private readonly StreamReader _sr;
 
-        public bool HasMore
-        {
-            get => !_sr.EndOfStream;
-        }
-        
+        public bool HasMore => !_sr.EndOfStream;
+
         public Parser(string path)
         {
-            _commandfinders = new ICommandFinder[]
+            _commandFinders = new ICommandFinder[]
             {
                 new ArithmeticFinder(),
                 new MemoryFinder(),
@@ -34,6 +32,10 @@ namespace VM.VMTranslator
             _sr = new StreamReader(_file);
         }
 
+        /// <summary>
+        /// Gets the next command from the vm code
+        /// </summary>
+        /// <returns>The next command</returns>
         public Command GetNext()
         {
             var line = _sr.ReadLine();
@@ -42,16 +44,21 @@ namespace VM.VMTranslator
             line = removeIndex >= 0 ? line.Remove(removeIndex).Trim() : line.Trim();
             
             var found = false;
-            Command command = new Command();
+            var command = new Command();
             
-            foreach (var commandFinder in _commandfinders)
+            foreach (var commandFinder in _commandFinders)
             {
                 commandFinder.Search(line,ref command, ref found);
+                if(found)
+                    break;
             }
 
             return command;
         }
 
+        /// <summary>
+        /// Closes the file stream
+        /// </summary>
         public void Close()
         {
             _sr.Close();

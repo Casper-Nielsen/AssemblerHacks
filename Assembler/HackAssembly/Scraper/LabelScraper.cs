@@ -2,6 +2,9 @@
 
 namespace Assembler.HackAssembly.Scraper
 {
+    /// <summary>
+    /// Scrapes the labels from the assembly code 
+    /// </summary>
     public class LabelScraper : IScraper
     {
         public void Scrap(ref string[] hackStringArray, ref Dictionary<string, int> namedPointers, ref List<int> usedNumbers)

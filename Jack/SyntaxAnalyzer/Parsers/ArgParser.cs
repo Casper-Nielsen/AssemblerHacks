@@ -16,13 +16,13 @@ public class ArgParser : IParser
         var currentToken = tokens.ElementAt(startIndex);
         nextIndex = startIndex+1;
         
-        if (currentToken.Attribute != AttributeEnum.Identifier) return null;
+        if (currentToken.Attribute != AttributeEnum.IDENTIFIER) return null;
         arg.Datatype = currentToken.Text;
         
         currentToken = tokens.ElementAt(nextIndex);
         nextIndex++;
         
-        if (currentToken.Attribute != AttributeEnum.Identifier) return null;
+        if (currentToken.Attribute != AttributeEnum.IDENTIFIER) return null;
         arg.Value = currentToken.Text;
         
         return arg;

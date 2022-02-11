@@ -2,6 +2,9 @@
 
 namespace VM.VMTranslator.Converters
 {
+    /// <summary>
+    /// Converts the arithmetic command to assembly
+    /// </summary>
     internal class ArithmeticConverter : IConverter<ArithmeticCommand>
     {
         public string Convert(ArithmeticCommand command, ref UniqueGen uniqueGen)

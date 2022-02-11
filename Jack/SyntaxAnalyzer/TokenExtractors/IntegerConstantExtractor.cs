@@ -20,7 +20,7 @@ public class IntegerConstantExtractor : ITokenExtractor
 
         if (!int.TryParse(intConstant, out _)) return false;
             
-        token = new Token(AttributeEnum.IntegerConstant, intConstant);
+        token = new Token(AttributeEnum.INTEGER_CONSTANT, intConstant);
         file = file.Remove(0, intConstant.Length);
         return true;
 

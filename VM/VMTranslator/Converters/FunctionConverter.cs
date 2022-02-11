@@ -2,12 +2,14 @@
 
 namespace VM.VMTranslator.Converters
 {
+    /// <summary>
+    /// Converts the function command to assembly
+    /// </summary>
     internal class FunctionConverter : IConverter<FunctionCommand>
     {
         public string Convert(FunctionCommand command, ref UniqueGen uniqueGen)
         {
-            string stringCommand;
-            stringCommand = $@"
+            var stringCommand = $@"
 ({command.Name})
 @SP 
 D=M

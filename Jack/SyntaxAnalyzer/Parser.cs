@@ -53,7 +53,7 @@ internal class Parser
             
             switch (currentToken.Attribute)
             {
-                case AttributeEnum.Keyword:
+                case AttributeEnum.KEYWORD:
                     switch (currentToken.Text)
                     {
                         case "let":
@@ -491,7 +491,7 @@ internal class Parser
     /// <exception cref="Exception">Throws the error message if the token isn't the valid symbol</exception>
     internal static bool CheckSymbol(Token token, string validSymbol, string error, ref int nextIndex)
     {
-        if (token.Attribute != AttributeEnum.Symbol) throw new Exception(error);
+        if (token.Attribute != AttributeEnum.SYMBOL) throw new Exception(error);
         if (token.Text != validSymbol) throw new Exception(error);
         nextIndex++;
         return true;
@@ -505,7 +505,7 @@ internal class Parser
     /// <returns>If the token is the valid symbol</returns>
     internal static bool CheckSymbol(Token token, string validSymbol)
     {
-        if (token.Attribute != AttributeEnum.Symbol) return false;
+        if (token.Attribute != AttributeEnum.SYMBOL) return false;
         return token.Text == validSymbol;
     }    
 }

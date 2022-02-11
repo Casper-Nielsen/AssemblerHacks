@@ -2,6 +2,9 @@
 
 namespace VM.VMTranslator.Converters
 {
+    /// <summary>
+    /// Converts a return command to assembly
+    /// </summary>
     internal class ReturnConverter : IConverter<ReturnCommand>
     {
         public string Convert(ReturnCommand command, ref UniqueGen uniqueGen)

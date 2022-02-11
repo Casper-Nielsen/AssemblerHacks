@@ -2,7 +2,7 @@
 
 public class ElseCommand : Statement
 {
-    public ElseCommand() : base(CommandType.ElseStatement)
+    public ElseCommand() : base(CommandType.ELSE_STATEMENT)
     {
     }
 }

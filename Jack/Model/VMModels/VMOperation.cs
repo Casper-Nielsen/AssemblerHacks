@@ -1,13 +1,13 @@
 ﻿namespace Jack.Model.VMModels;
 
-public class VMOperation : IVmModel
+public class VmOperation : IVmModel
 {
     public OperationEnum Operation { get; set; }
-    public VMOperation(OperationEnum operation)
+    public VmOperation(OperationEnum operation)
     {
         Operation = operation;
     }
-    public VMOperation(string operation)
+    public VmOperation(string operation)
     {
         switch (operation)
         {

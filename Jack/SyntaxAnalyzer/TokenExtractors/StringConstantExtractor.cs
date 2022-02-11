@@ -18,7 +18,7 @@ public class StringConstantExtractor : ITokenExtractor
 
         sConstant = sConstant.Replace("\"", "");
 
-        token = new Token(AttributeEnum.StringConstant, sConstant);
+        token = new Token(AttributeEnum.STRING_CONSTANT, sConstant);
         file = file.Remove(0, sConstant.Length+2);
         return true;
     }
