@@ -27,7 +27,7 @@ public class JackCompiler
     public void Compile(string filepath)
     {
         var paths = Directory.EnumerateFiles(filepath + @"\", "*.jack").ToList();
-        var commands = new Dictionary<string, IReadOnlyCollection<Command?>>();
+        var commands = new Dictionary<string, IReadOnlyCollection<Command>>();
         
         // Reads all the files
         foreach (var path in paths)
@@ -37,12 +37,12 @@ public class JackCompiler
             var jack = new List<string>();
             while (!reader.EndOfStream)
             {
-                jack.Add(reader.ReadLine());
+                jack.Add(reader.ReadLine() ?? string.Empty);
             }
             // Tokenizes the jack file
             var tokens = _tokenizer.Tokenize(jack);
             // Parses the Tokens
-            commands.Add(path,_parser.Parse(tokens));
+            commands.Add(path,_parser.Parse(tokens)!);
         }
 
         /* // used for debugging
@@ -51,7 +51,7 @@ public class JackCompiler
         */
         
         // Gets the Classes name from all the files 
-        foreach (var (path, value) in commands)
+        foreach (var (_, value) in commands)
         {
             _converter.AddClasses(value);
         }

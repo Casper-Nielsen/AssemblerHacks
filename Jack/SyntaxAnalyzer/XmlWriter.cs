@@ -9,8 +9,8 @@ namespace Jack.SyntaxAnalyzer;
 /// </summary>
 internal class XmlWriter
 {
-    private XmlDocument _doc;
-    private XmlNode _node;
+    private readonly XmlDocument _doc;
+    private readonly XmlNode _node;
     
     public XmlWriter()
     {

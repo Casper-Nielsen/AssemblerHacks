@@ -1,8 +1,8 @@
 ﻿namespace Jack.SyntaxAnalyzer;
 
-public class ConstantLists
+public static class ConstantLists
 {
-    public static List<char> Symbols = new List<char>(){
+    public static readonly List<char> Symbols = new List<char>(){
         '{',
         '}',
         '(',
@@ -22,7 +22,7 @@ public class ConstantLists
         '=',
         '~'
     };
-    public static List<string> Keywords = new List<string>(){
+    public static readonly List<string> Keywords = new List<string>(){
         "class",
         "constructor",
         "function",

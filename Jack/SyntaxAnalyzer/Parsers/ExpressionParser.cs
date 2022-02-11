@@ -84,7 +84,7 @@ public class ExpressionParser: IParser
         expressionCommand.Operation = next;
         
         // Gets the next part of the expression
-        expressionCommand.OpTerm = Parse(tokens, parserGroup, nextIndex, out nextIndex);
+        expressionCommand.OpTerm = Parse(tokens, parserGroup, nextIndex, out nextIndex)!;
         return expressionCommand;
     }
 }

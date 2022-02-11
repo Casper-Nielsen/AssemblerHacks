@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.SymbolStore;
-using Jack.Model;
+﻿using Jack.Model;
 
 namespace Jack.SyntaxAnalyzer;
 
@@ -36,14 +35,14 @@ internal class Parser
     }
 
     /// <summary>
-    /// Parses the tokens to more usefull data
+    /// Parses the tokens to more useful data
     /// </summary>
     /// <param name="tokens">The tokens to parse</param>
     /// <param name="startIndex">The index it will start at</param>
     /// <param name="nextIndex">The next index that was not parsed</param>
     /// <returns>A command for the tokens it parsed</returns>
     /// <exception cref="Exception">Throws exception If the Tokens does not aline with the jack grammar</exception>
-    private Command? ParseCommand(IReadOnlyCollection<Token> tokens, int startIndex, out int nextIndex)
+    private Command ParseCommand(IReadOnlyCollection<Token> tokens, int startIndex, out int nextIndex)
     {
         nextIndex = startIndex;
         while (nextIndex < tokens.Count)
@@ -68,7 +67,7 @@ internal class Parser
                             return ParseClass(tokens, startIndex, out nextIndex);
                         case "constructor":
                             return ParseCtor(tokens, startIndex, out nextIndex);
-;                        case "method":
+                        case "method":
                         case "function":
                             return ParseFunction(tokens, startIndex, out nextIndex);
                         case "static":
@@ -88,6 +87,10 @@ internal class Parser
                         default:
                             throw new Exception("unknown Keyword");
                     }
+                case AttributeEnum.SYMBOL:
+                case AttributeEnum.INTEGER_CONSTANT:
+                case AttributeEnum.STRING_CONSTANT:
+                case AttributeEnum.IDENTIFIER:
                 default:
                     throw new Exception("Unknown Command");
             }
@@ -404,21 +407,20 @@ internal class Parser
     /// <exception cref="Exception">Throws exception If the Tokens does not aline with the jack grammar</exception>
     private DoCommand ParseDo(IReadOnlyCollection<Token> tokens, int startIndex, out int nextIndex)
     {
-        nextIndex = startIndex+1;
-        var doCommand =
-            (DoCommand) _parserGroup.InlineDoParser.Parse(tokens, _parserGroup, nextIndex, out nextIndex);
-        if(doCommand == null) throw new Exception("Invalid do command");
-
+        nextIndex = startIndex + 1;
+        var command = _parserGroup.InlineDoParser.Parse(tokens, _parserGroup, nextIndex, out nextIndex);
+        if (command is not DoCommand doCommand) throw new Exception("Invalid do command");
+        
         doCommand.NoReturn = true;
-                            
+
         // Sees if the next symbol is ;
         if (!CheckSymbol(tokens.ElementAt(nextIndex), ";"))
             throw new Exception("Invalid do command");
         nextIndex++;
-                            
+
         return doCommand;
     }
-    
+
     /// <summary>
     /// Parses the tokens to a Else Command
     /// </summary>
@@ -489,12 +491,11 @@ internal class Parser
     /// <param name="nextIndex">The next index that has not been parsed</param>
     /// <returns>true if it don't throw</returns>
     /// <exception cref="Exception">Throws the error message if the token isn't the valid symbol</exception>
-    internal static bool CheckSymbol(Token token, string validSymbol, string error, ref int nextIndex)
+    private static void CheckSymbol(Token token, string validSymbol, string error, ref int nextIndex)
     {
         if (token.Attribute != AttributeEnum.SYMBOL) throw new Exception(error);
         if (token.Text != validSymbol) throw new Exception(error);
         nextIndex++;
-        return true;
     }   
     
     /// <summary>

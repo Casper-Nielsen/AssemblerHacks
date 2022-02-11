@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Jack.Model;
+﻿using Jack.Model;
 using Jack.Model.VMModels;
 using Operation = Jack.Model.Operation;
 
@@ -13,11 +12,11 @@ public class ConvertToVmModels
     private string _currentClass = "";
     private int _uniCount;
 
-    private List<string> _classes = new List<string>();
+    private readonly List<string> _classes = new List<string>();
     
     private List<Field> _lclList = new List<Field>();
     private List<Field> _fieldList = new List<Field>();
-    private List<Field> _staticList = new List<Field>();
+    private readonly List<Field> _staticList = new List<Field>();
     private List<Field> _argList = new List<Field>();
 
     private Field? GetField(string name)
@@ -62,7 +61,7 @@ public class ConvertToVmModels
     /// </summary>
     /// <param name="commands">the collection of commands and statements to be converted</param>
     /// <returns></returns>
-    public List<IVmModel> Convert(IReadOnlyCollection<Command> commands)
+    public List<IVmModel> Convert(IEnumerable<Command> commands)
     {
         var vmModels = new List<IVmModel>();
         foreach (var command in commands)
@@ -111,11 +110,11 @@ public class ConvertToVmModels
     }
 
     /// <summary>
-    /// Convertes a ctor command into vm code
+    /// Converts a ctor command into vm code
     /// </summary>
     /// <param name="ctorCommand">The command that will be converted</param>
     /// <returns>A list of vm models</returns>
-    private List<IVmModel> ConvertCtor(CtorCommand ctorCommand)
+    private IEnumerable<IVmModel> ConvertCtor(CtorCommand ctorCommand)
     {
         var vmModels = new List<IVmModel>();
 
@@ -131,7 +130,7 @@ public class ConvertToVmModels
         vmModels.Add(new Call("Memory.alloc", 1));
         vmModels.Add(new Pop("POINTER", DataLocation.POINTER, 0));
 
-        vmModels.AddRange(Convert(ctorCommand.Statements));
+        vmModels.AddRange(Convert(ctorCommand.Statements!));
 
         _argList = tempArgList;
         _lclList = tempLclList;
@@ -144,21 +143,19 @@ public class ConvertToVmModels
     /// </summary>
     /// <param name="letStatement">The command that will be converted</param>
     /// <returns>A list of vm models</returns>
-    private List<IVmModel> ConvertLet(LetStatement letStatement)
+    private IEnumerable<IVmModel> ConvertLet(LetStatement letStatement)
     {
         var vmModels = new List<IVmModel>();
-        var field = new Field();
-        
+
         if (letStatement.Expression is DoCommand doCommand)
             vmModels.AddRange(ConvertDo(doCommand));
-        else
-            vmModels.AddRange(ConvertExpression(letStatement.Expression));
+        else if (letStatement.Expression != null) vmModels.AddRange(ConvertExpression(letStatement.Expression));
 
         switch (letStatement.VarName)
         {
             case VarName varName:
-                field = GetField(varName.Value);
-                vmModels.Add(new Pop(field));
+                var field = GetField(varName.Value);
+                if (field != null) vmModels.Add(new Pop(field));
                 break;
             case ArrayVarCommand arrayVarCommand:
                 vmModels.AddRange(ConvertArray(arrayVarCommand));
@@ -174,24 +171,26 @@ public class ConvertToVmModels
     /// </summary>
     /// <param name="arrayVarCommand">The command that will be converted</param>
     /// <returns>A list of vm models</returns>
-    private List<IVmModel> ConvertArray(ArrayVarCommand arrayVarCommand)
+    private IEnumerable<IVmModel> ConvertArray(ArrayVarCommand arrayVarCommand)
     {
         var vmModels = new List<IVmModel>();
         var field = GetField(arrayVarCommand.Value);
-        
-        vmModels.Add(new Push(field));
-        if (arrayVarCommand.Index is Expression indexExpression)
+
+        if (field != null) vmModels.Add(new Push(field));
+        switch (arrayVarCommand.Index)
         {
-            vmModels.AddRange(ConvertExpression(indexExpression));    
-        }
-        else if (arrayVarCommand.Index is Constant indexConstant)
-        {
-            vmModels.Add(new Push("CONSTANT", DataLocation.CONSTANT, int.Parse(indexConstant.Value)));
-        }
-        else if (arrayVarCommand.Index is VarName indexName)
-        {
-            var indexField = GetField(indexName.Value);
-            vmModels.Add(new Push(indexField));
+            case Expression indexExpression:
+                vmModels.AddRange(ConvertExpression(indexExpression));
+                break;
+            case Constant indexConstant:
+                vmModels.Add(new Push("CONSTANT", DataLocation.CONSTANT, int.Parse(indexConstant.Value)));
+                break;
+            case VarName indexName:
+            {
+                var indexField = GetField(indexName.Value);
+                if (indexField != null) vmModels.Add(new Push(indexField));
+                break;
+            }
         }
         vmModels.Add(new VmOperation(VmOperation.OperationEnum.ADD));
         vmModels.Add(new Pop("POINTER", DataLocation.POINTER, 1));
@@ -223,7 +222,7 @@ public class ConvertToVmModels
                         vmModels.Add(new VmOperation(VmOperation.OperationEnum.NEG));
                         break;
                     case VarName varName:
-                        vmModels.Add(new Push(GetField(varName.Value)));
+                        vmModels.Add(new Push(GetField(varName.Value)!));
                         break;
                     case DoCommand doCommand:
                         vmModels.AddRange(ConvertDo(doCommand));
@@ -267,10 +266,10 @@ public class ConvertToVmModels
             }
             case VarName varName:
                 if (!varName.Neg)
-                    vmModels.Add(new Push(GetField(varName.Value)));
+                    vmModels.Add(new Push(GetField(varName.Value)!));
                 else
                 {
-                    vmModels.Add(new Push(GetField(varName.Value)));
+                    vmModels.Add(new Push(GetField(varName.Value)!));
                     vmModels.Add(new VmOperation(VmOperation.OperationEnum.NEG));
                 }
                 break;
@@ -393,10 +392,10 @@ public class ConvertToVmModels
     {
         var vmModels = new List<IVmModel>();
         var uniLabel = UniqueLabel("If");
-        vmModels.AddRange(ConvertExpression(ifStatement.Expression));
+        if (ifStatement.Expression != null) vmModels.AddRange(ConvertExpression(ifStatement.Expression));
         vmModels.Add(new VmOperation(VmOperation.OperationEnum.NOT));
         vmModels.Add(new IfGoTo(uniLabel));
-        vmModels.AddRange(Convert(ifStatement.Statements));
+        vmModels.AddRange(Convert(ifStatement.Statements!));
         vmModels.Add(new Label(uniLabel));
         return vmModels;
     }
@@ -412,7 +411,7 @@ public class ConvertToVmModels
         _currentClass = classCommand.ClassName.Value;
         var tempFieldList = _fieldList;
         _fieldList = new List<Field>();
-        vmModels.AddRange(Convert(classCommand.ClassBody));
+        vmModels.AddRange(Convert(classCommand.ClassBody!));
         _fieldList = tempFieldList;
         return vmModels;
     }
@@ -423,13 +422,13 @@ public class ConvertToVmModels
     /// <param name="elseCommand">The command that will be converted</param>
     /// <param name="ifLabel">The label that is used to jump in the if command</param>
     /// <returns>A list of vm models</returns>
-    private List<IVmModel> ConvertElse(ElseCommand elseCommand, IVmModel ifLabel)
+    private IEnumerable<IVmModel> ConvertElse(Statement elseCommand, IVmModel ifLabel)
     {
         var vmModels = new List<IVmModel>();
         var uniLabel = UniqueLabel("else");
         vmModels.Add(new GoTo(uniLabel));
         vmModels.Add(ifLabel);
-        vmModels.AddRange(Convert(elseCommand.Statements));
+        vmModels.AddRange(Convert(elseCommand.Statements!));
         vmModels.Add(new Label(uniLabel));
         return vmModels;
     }
@@ -445,10 +444,14 @@ public class ConvertToVmModels
         var uniLabel = UniqueLabel("while");
         var uniLabelOut = UniqueLabel("whileOut");
         vmModels.Add(new Label(uniLabel));
-        vmModels.AddRange(ConvertExpression(whileStatement.Expression));
+        
+        if (whileStatement.Expression != null) vmModels.AddRange(ConvertExpression(whileStatement.Expression));
+        
         vmModels.Add(new VmOperation(VmOperation.OperationEnum.NOT));
         vmModels.Add(new IfGoTo(uniLabelOut));
-        vmModels.AddRange(Convert(whileStatement.Statements));
+        
+        vmModels.AddRange(Convert(whileStatement.Statements!));
+        
         vmModels.Add(new GoTo(uniLabel));
         vmModels.Add(new Label(uniLabelOut));
         return vmModels;
@@ -484,7 +487,7 @@ public class ConvertToVmModels
             vmModels.Add(new Push("ARGUMENT", DataLocation.ARGUMENT, 0));
             vmModels.Add(new Pop("POINTER", DataLocation.POINTER, 0));
         }
-        vmModels.AddRange(Convert(functionCommand.Statements));
+        vmModels.AddRange(Convert(functionCommand.Statements!));
 
         _argList = tempArgList;
         _lclList = tempLclList;
@@ -511,7 +514,7 @@ public class ConvertToVmModels
                 vmModels.Add(new VmOperation(VmOperation.OperationEnum.NEG));
             }
         else
-            vmModels.Add(new Push(GetField(valueHolder.Value)));
+            vmModels.Add(new Push(GetField(valueHolder.Value)!));
 
         return vmModels;
     }
@@ -521,7 +524,7 @@ public class ConvertToVmModels
     /// </summary>
     /// <param name="returnCommand">The command that will be converted</param>
     /// <returns>A list of vm models</returns>
-    private List<IVmModel> ConvertReturn(ReturnCommand returnCommand)
+    private IEnumerable<IVmModel> ConvertReturn(ReturnCommand returnCommand)
     {
         var vmModels = new List<IVmModel>();
         if (returnCommand.Value != null)
@@ -558,13 +561,14 @@ public class ConvertToVmModels
     /// </summary>
     /// <param name="stringConstant">The string constant that will be converted</param>
     /// <returns>A list of vm models</returns>
-    private List<IVmModel> ConvertString(StringConstant stringConstant)
+    private IEnumerable<IVmModel> ConvertString(StringConstant stringConstant)
     {
-        var vmModels = new List<IVmModel>();
-        
-        vmModels.Add(new Push("CONSTANT",DataLocation.CONSTANT, stringConstant.Value.Length));
-        vmModels.Add(new Call("String.new", 1));
-        
+        var vmModels = new List<IVmModel>
+        {
+            new Push("CONSTANT", DataLocation.CONSTANT, stringConstant.Value.Length),
+            new Call("String.new", 1)
+        };
+
         foreach (var charPart in stringConstant.Value)
         {
             vmModels.Add(new Push("CONSTANT",DataLocation.CONSTANT, charPart));
@@ -579,8 +583,7 @@ public class ConvertToVmModels
     /// <returns>A list of vm models</returns>
     private List<IVmModel> ConvertThis()
     {
-        var vmModels = new List<IVmModel>();
-        vmModels.Add(new Push("POINTER", DataLocation.POINTER, 0));
+        var vmModels = new List<IVmModel> {new Push("POINTER", DataLocation.POINTER, 0)};
         return vmModels;
     }
     
