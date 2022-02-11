@@ -2,4 +2,7 @@ AssemblerHacks/bin/*
 AssemblerHacks/obj/*
 Jack/bin/*
 Jack/obj/*
+VM/bin/*
+VM/obj/*
+.idea/*
 *.cache
