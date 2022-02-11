@@ -4,9 +4,11 @@ using System.Xml.Serialization;
 
 namespace Jack.Model;
 
+[XmlInclude(typeof(ArgCommand))]
 [XmlInclude(typeof(ArrayVarCommand))]
 [XmlInclude(typeof(ClassCommand))]
 [XmlInclude(typeof(Constant))]
+[XmlInclude(typeof(CtorCommand))]
 [XmlInclude(typeof(DoCommand))]
 [XmlInclude(typeof(ElseCommand))]
 [XmlInclude(typeof(Expression))]
@@ -16,7 +18,8 @@ namespace Jack.Model;
 [XmlInclude(typeof(Operation))]
 [XmlInclude(typeof(ReturnCommand))]
 [XmlInclude(typeof(Statement))]
-[XmlInclude(typeof(Token))]
+[XmlInclude(typeof(StringConstant))]
+[XmlInclude(typeof(ThisHolder))]
 [XmlInclude(typeof(ValueHolder))]
 [XmlInclude(typeof(VarCommand))]
 [XmlInclude(typeof(VarName))]

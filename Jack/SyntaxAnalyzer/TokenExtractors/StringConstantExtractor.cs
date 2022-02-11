@@ -10,6 +10,7 @@ public class StringConstantExtractor : ITokenExtractor
     public bool TryExtract(ref string file, out Token token)
     {
         token = new Token();
+        if (file.Length == 0) return false;
         
         if (file[0] != '"') return false;
         var endIndex = file.IndexOf('"', 1);

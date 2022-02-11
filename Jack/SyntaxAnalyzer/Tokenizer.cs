@@ -31,7 +31,7 @@ internal class Tokenizer
 
             while (lineStr.Length > 0)
             {
-                lineStr = line.Trim();
+                lineStr = lineStr.Trim();
 
                 if (_extractorGroup.IntegerConstantExtractor.TryExtract(ref lineStr, out var token)) {}
                 else if (_extractorGroup.StringConstantExtractor.TryExtract(ref lineStr, out token)){}

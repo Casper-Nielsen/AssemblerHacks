@@ -11,6 +11,7 @@ public class IntegerConstantExtractor : ITokenExtractor
     public bool TryExtract(ref string file, out Token token)
     {
         token = new Token();
+        if (file.Length == 0) return false;
         if (!int.TryParse(file[0].ToString(), out _)) return false;
         
         var endIndex = file.IndexOf(' ', 0);

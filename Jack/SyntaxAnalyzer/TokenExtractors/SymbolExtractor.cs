@@ -11,6 +11,7 @@ public class SymbolExtractor : ITokenExtractor
     public bool TryExtract(ref string file, out Token token)
     {
         token = new Token();
+        if (file.Length == 0) return false;
         if (!ConstantLists.Symbols.Contains(file[0])) return false;
         token = new Token(AttributeEnum.SYMBOL,file[..1]);
         file = file.Remove(0, 1);

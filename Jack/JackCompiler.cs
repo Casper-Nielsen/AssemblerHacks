@@ -44,6 +44,11 @@ public class JackCompiler
             // Parses the Tokens
             commands.Add(path,_parser.Parse(tokens));
         }
+
+        /* // used for debugging
+        * var xmlWriter = new XmlWriter();
+        * xmlWriter.WriteGood(commands.First(c => true).Value);
+        */
         
         // Gets the Classes name from all the files 
         foreach (var (path, value) in commands)
